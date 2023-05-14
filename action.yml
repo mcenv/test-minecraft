@@ -1,0 +1,11 @@
+name: 'Test Minecraft'
+author: 'mcenv'
+description: 'Test against multiple Minecraft versions'
+inputs:
+outputs:
+runs:
+  using: 'node16'
+  main: 'index.js'
+branding:
+  icon: 'check-circle'
+  color: 'green'
