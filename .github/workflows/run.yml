@@ -46,6 +46,7 @@ jobs:
                 break;
               }
             }
+            console.log(versions);
             return versions;
   check:
     needs: fetch
