@@ -80,7 +80,7 @@ jobs:
       - uses: actions/github-script@v6
         id: check
         env:
-          MINECRAFT: ${{ steps.minecraft.outputs.version }}
+          MINECRAFT_VERSION: ${{ steps.minecraft.outputs.version }}
         with:
           script: ${{ inputs.script }}
       - uses: actions/github-script@v6

@@ -14,6 +14,7 @@ jobs:
       script: |
         const { execSync } = require("child_process");
         const { readFileSync } = require("fs");
+        console.log(`Running ${process.env.MINECRAFT_VERSION}`);
         execSync(`java -DbundlerMainClass=net.minecraft.data.Main -jar ${process.env.MINECRAFT} --all`);
         const lines = readFileSync("./logs/latest.log").toString().split("\n");
         const results = /\[\d\d:\d\d:\d\d\] \[ServerMain\/INFO\]: Caching: total files: (\d+).*/g.exec(lines[lines.length - 2]);
