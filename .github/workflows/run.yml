@@ -27,22 +27,22 @@ jobs:
         with:
           retries: 3
           script: |
-            const min = core.getInput("min");
-            const max = core.getInput("max");
+            const from = core.getInput("from");
+            const to = core.getInput("to");
             const ignore = core.getMultilineInput("ignore");
             const response = await fetch("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
             const manifest = await response.json();
             const versions = [];
-            let include = max === "";
+            let include = to === "";
             for (const version of manifest.versions) {
               const id = version.id;
-              if (id === max) {
+              if (id === to) {
                 include = true;
               }
               if (include && !ignore.includes(id)) {
                 versions.push(id);
               }
-              if (id === min) {
+              if (id === from) {
                 break;
               }
             }
