@@ -33,7 +33,7 @@ jobs:
             const response = await fetch("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
             const manifest = await response.json();
             const versions = [];
-            let include = max === undefined;
+            let include = max === "";
             for (const version of manifest.versions) {
               const id = version.id;
               if (id === max) {
