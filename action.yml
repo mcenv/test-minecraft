@@ -1,8 +1,6 @@
 name: 'Test Minecraft'
 author: 'mcenv'
 description: 'Test against multiple Minecraft versions'
-inputs:
-outputs:
 runs:
   using: 'composite'
   steps:
