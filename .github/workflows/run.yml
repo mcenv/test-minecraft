@@ -5,7 +5,7 @@ on:
     inputs:
       from:
         description: "from"
-        required: false
+        required: true
         type: string
       to:
         description: "to"
@@ -27,7 +27,7 @@ jobs:
         with:
           retries: 3
           script: |
-            const from = core.getInput("from");
+            const from = core.getInput("from", { required: true });
             const to = core.getInput("to");
             const ignore = core.getMultilineInput("ignore");
             const response = await fetch("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
