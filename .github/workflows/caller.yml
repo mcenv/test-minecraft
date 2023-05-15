@@ -5,4 +5,4 @@ on:
 
 jobs:
   update:
-    uses: mcenv/test-minecraft/.github/workflows/callee.yml@main
+    uses: mcenv/test-minecraft/.github/workflows/run.yml@main

@@ -1,4 +1,4 @@
-name: Callee
+name: Run
 
 on:
   workflow_call:
@@ -7,4 +7,4 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "callee"
+      - run: echo "run"
