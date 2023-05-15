@@ -69,9 +69,49 @@ jobs:
         id: minecraft
         with:
           version: ${{ matrix.version }}
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: ${{ fromJson(steps.minecraft.outputs.package).javaVersion.majorVersion }}
       - uses: actions/github-script@v6
         id: check
         env:
           MINECRAFT: ${{ steps.minecraft.outputs.version }}
         with:
           script: ${{ inputs.script }}
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs");
+            const os = require("os");
+            const path = require("path");
+            const result = ${{ steps.check.outputs.result }};
+            const root = path.join(os.homedir(), ".minecraft");
+            await io.mkdirP(root);
+            fs.writeFileSync(path.join(root, "result.json"), JSON.stringify(result));
+            return;
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.version }}
+          path: result.json
+          retention-days: 1
+  merge:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: versions
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs");
+            const results = {};
+            const globber = await glob.create("versions/*/result.json");
+            const versions = await globber.glob();
+            for (const version of versions) {
+              const id = version.slice(0, -"/result.json".length).split("/").pop();
+              results[id] = JSON.parse(fs.readFileSync(version));
+            }
+            core.exportVariable("RESULTS", results);
+            return;
