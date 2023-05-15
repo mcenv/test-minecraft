@@ -3,17 +3,56 @@ name: Run
 on:
   workflow_call:
     inputs:
-      min:
-        description: "min"
+      from:
+        description: "from"
         required: false
         type: string
-      max:
-        description: "max"
+      to:
+        description: "to"
+        required: false
+        type: string
+      ignore:
+        description: "ignore"
         required: false
         type: string
 
 jobs:
-  run:
+  fetch:
     runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.fetch.outputs.result }}
     steps:
-      - run: echo ${{ inputs.min }}-${{ inputs.max }}
+      - uses: actions/github-script@v6
+        id: fetch
+        with:
+          retries: 3
+          script: |
+            const min = core.getInput("min");
+            const max = core.getInput("max");
+            const ignore = core.getMultilineInput("ignore");
+            const response = await fetch("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
+            const manifest = await response.json();
+            const versions = [];
+            let include = max === undefined;
+            for (const version of manifest.versions) {
+              const id = version.id;
+              if (id === max) {
+                include = true;
+              }
+              if (include && !ignore.includes(id)) {
+                versions.push(id);
+              }
+              if (id === min) {
+                break;
+              }
+            }
+            return versions;
+  check:
+    needs: fetch
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJson(needs.fetch.outputs.versions) }}
+    steps:
+      - run: echo ${{ matrix.version }}
