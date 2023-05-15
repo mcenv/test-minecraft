@@ -24,9 +24,12 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         id: fetch
+        env:
+          INPUT_FROM: ${{ inputs.from }}
+          INPUT_TO: ${{ inputs.to }}
+          INPUT_IGNORE: ${{ inputs.ignore }}
         with:
           retries: 3
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const from = core.getInput("from", { required: true });
             const to = core.getInput("to");
