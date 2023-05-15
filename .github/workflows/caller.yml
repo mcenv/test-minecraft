@@ -14,4 +14,9 @@ jobs:
         23w17a
       script: |
         console.log(process.env.MINECRAFT);
-        return { success: true };
+        return { success: process.env.MINECRAFT };
+  use:
+    needs: call
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ env.RESULTS }}
