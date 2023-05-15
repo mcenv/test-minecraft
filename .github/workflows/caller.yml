@@ -5,7 +5,4 @@ on:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: mcenv/test-minecraft/.github/workflows/callee.yml@main
+    uses: mcenv/test-minecraft/.github/workflows/callee.yml@main
