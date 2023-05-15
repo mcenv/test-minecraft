@@ -19,4 +19,4 @@ jobs:
     needs: call
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env.RESULTS }}
+      - run: echo ${{ needs.call.outputs.results }}
