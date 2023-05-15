@@ -1,0 +1,37 @@
+name: Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call:
+    uses: mcenv/test-minecraft/.github/workflows/run.yml@main
+    with:
+      from: "1.19.4"
+      ignore: |
+        23w13a_or_b
+        23w17a
+      script: |
+        const { execSync } = require("child_process");
+        const { readFileSync } = require("fs");
+        execSync(`java -DbundlerMainClass=net.minecraft.data.Main -jar ${process.env.MINECRAFT} --all`);
+        const lines = readFileSync("./logs/latest.log").toString().split("\n");
+        const results = /\[\d\d:\d\d:\d\d\] \[ServerMain\/INFO\]: Caching: total files: (\d+).*/g.exec(lines[lines.length - 2]);
+        const total_files = results[1];
+        return { total_files };
+  use:
+    needs: call
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const results = ${{ needs.call.outputs.results }};
+            core.summary.addTable(
+              [
+                [{ data: "version", header: true }, { data: "total files", header: true }],
+                ...Object.entries(results).map(([version, { total_files }]) => [{ data: version }, { data: total_files }]),
+              ]
+            );
+            core.summary.write();
+            return;
