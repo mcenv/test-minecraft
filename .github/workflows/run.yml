@@ -15,6 +15,10 @@ on:
         description: "ignore"
         required: false
         type: string
+      script:
+        description: "script"
+        required: true
+        type: string
 
 jobs:
   fetch:
@@ -60,4 +64,14 @@ jobs:
       matrix:
         version: ${{ fromJson(needs.fetch.outputs.versions) }}
     steps:
-      - run: echo ${{ matrix.version }}
+      - uses: actions/checkout@v3
+      - uses: mcenv/setup-minecraft@v3
+        id: minecraft
+        with:
+          version: ${{ matrix.version }}
+      - uses: actions/github-script@v6
+        id: check
+        env:
+          MINECRAFT: ${{ steps.minecraft.outputs.version }}
+        with:
+          script: ${{ inputs.script }}

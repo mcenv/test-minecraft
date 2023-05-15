@@ -12,3 +12,6 @@ jobs:
       ignore: |
         23w13a_or_b
         23w17a
+      script: |
+        console.log(process.env.MINECRAFT);
+        return { success: true };
