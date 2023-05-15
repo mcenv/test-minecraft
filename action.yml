@@ -4,8 +4,9 @@ description: 'Test against multiple Minecraft versions'
 inputs:
 outputs:
 runs:
-  using: 'node16'
-  main: 'index.js'
+  using: 'composite'
+  steps:
+    - uses: mcenv/test-minecraft/.github/workflows/callee.yml@main
 branding:
   icon: 'check-circle'
   color: 'green'

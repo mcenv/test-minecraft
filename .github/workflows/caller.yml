@@ -1,0 +1,10 @@
+name: Caller
+
+on:
+  workflow_call:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./

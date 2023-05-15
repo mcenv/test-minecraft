@@ -1,0 +1,10 @@
+name: Callee
+
+on:
+  workflow_call:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "callee"
