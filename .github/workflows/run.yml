@@ -2,9 +2,18 @@ name: Run
 
 on:
   workflow_call:
+    inputs:
+      min:
+        description: "min"
+        required: false
+        type: string
+      max:
+        description: "max"
+        required: false
+        type: string
 
 jobs:
-  update:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "run"
+      - run: echo ${{ inputs.min }}-${{ inputs.max }}
