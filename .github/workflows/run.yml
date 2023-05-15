@@ -83,12 +83,8 @@ jobs:
         with:
           script: |
             const fs = require("fs");
-            const os = require("os");
-            const path = require("path");
             const result = ${{ steps.check.outputs.result }};
-            const root = path.join(os.homedir(), ".minecraft");
-            await io.mkdirP(root);
-            fs.writeFileSync(path.join(root, "result.json"), JSON.stringify(result));
+            fs.writeFileSync("result.json", JSON.stringify(result));
             return;
       - uses: actions/upload-artifact@v3
         with:
