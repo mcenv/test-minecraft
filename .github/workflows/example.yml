@@ -5,7 +5,7 @@ on:
 
 jobs:
   call:
-    uses: mcenv/test-minecraft/.github/workflows/run.yml@main
+    uses: mcenv/test-minecraft/.github/workflows/run.yml@v1
     with:
       from: "1.19.4"
       ignore: |
