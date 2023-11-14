@@ -30,7 +30,7 @@ jobs:
     outputs:
       versions: ${{ steps.fetch.outputs.result }}
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         id: fetch
         env:
           INPUT_FROM: ${{ inputs.from }}
@@ -77,13 +77,13 @@ jobs:
         with:
           distribution: "temurin"
           java-version: ${{ fromJson(steps.minecraft.outputs.package).javaVersion.majorVersion }}
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         id: check
         env:
           MINECRAFT_VERSION: ${{ steps.minecraft.outputs.version }}
         with:
           script: ${{ inputs.script }}
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs");
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           path: versions
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         id: merge
         with:
           script: |
