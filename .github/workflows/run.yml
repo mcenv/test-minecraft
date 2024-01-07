@@ -73,7 +73,7 @@ jobs:
         id: minecraft
         with:
           version: ${{ matrix.version }}
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: ${{ fromJson(steps.minecraft.outputs.package).javaVersion.majorVersion }}
