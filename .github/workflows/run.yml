@@ -101,7 +101,7 @@ jobs:
     outputs:
       results: ${{ steps.merge.outputs.result }}
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           path: versions
       - uses: actions/github-script@v7
